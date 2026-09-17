@@ -1089,6 +1089,34 @@ function bindEditor() {
     }
   });
 
+  // Enter keeps the current line's indentation. Inside a block (after a line
+  // ending in ':') it adds one extra level, Python-style.
+  // Shift+Enter is left alone as a plain newline when you don't want the indent.
+  el.codeEditor.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' || e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return;
+    e.preventDefault();
+
+    const value = el.codeEditor.value;
+    const start = el.codeEditor.selectionStart;
+    const end = el.codeEditor.selectionEnd;
+
+    // Indentation of the line the caret is on.
+    const lineStart = value.lastIndexOf('\n', start - 1) + 1;
+    const currentLine = value.slice(lineStart, start);
+    const indent = (currentLine.match(/^[ \t]*/) || [''])[0];
+
+    // Only add a level when the text before the caret really opens a block:
+    // an unclosed parenthesis means we are mid-expression, not entering a body.
+    const before = currentLine.trimEnd();
+    const opensBlock = before.endsWith(':') && !/[([{][^)\]}]*$/.test(before);
+    const nextIndent = opensBlock ? `${indent}    ` : indent;
+
+    el.codeEditor.value = `${value.slice(0, start)}\n${nextIndent}${value.slice(end)}`;
+    const caret = start + 1 + nextIndent.length;
+    el.codeEditor.selectionStart = el.codeEditor.selectionEnd = caret;
+    updateGutter();
+  });
+
   el.codeEditor.addEventListener('scroll', () => {
     el.gutter.scrollTop = el.codeEditor.scrollTop;
   });
