@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>LeetCode Trainer</title>
-  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
   <header class="topbar">
@@ -19,7 +19,7 @@
     <div class="topbar-actions">
       <button type="button" class="nav-btn nav-fold" id="unfoldSidebarBtn" title="Show the problem list">⟩ Problems</button>
       <button type="button" class="nav-btn" id="navProblems">Problems</button>
-      <button type="button" class="nav-btn" id="navMastered">斩 Mastered</button>
+      <button type="button" class="nav-btn" id="navMastered">Mastered</button>
       <button type="button" class="nav-btn" id="navStats">Stats</button>
       <span class="judge-status" id="judgeStatus" title="Python judge status">…</span>
     </div>
@@ -65,7 +65,7 @@
             </div>
             <div class="problem-head-actions">
               <button type="button" class="btn-icon" id="toggleSolution">Solution</button>
-              <button type="button" class="btn-icon btn-zhan" id="zhanBtn" title="Mark as mastered">斩</button>
+              <button type="button" class="btn-icon btn-zhan" id="zhanBtn" title="Mark as mastered">Mark mastered</button>
             </div>
           </div>
 
@@ -151,7 +151,7 @@
         <thead>
           <tr>
             <th>#</th><th>Title</th><th>Difficulty</th><th>Runs</th>
-            <th>Submits</th><th>Solved</th><th>Best ms</th><th>Last submit</th><th>斩</th>
+            <th>Submits</th><th>Solved</th><th>Best ms</th><th>Last submit</th><th>Mastered</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -175,6 +175,6 @@
     Your code runs locally via CPython on your machine. <strong>Run</strong> uses the example tests; <strong>Submit</strong> checks every test case.
   </footer>
 
-  <script type="module" src="app.js?v=5"></script>
+  <script type="module" src="app.js?v=6"></script>
 </body>
 </html>

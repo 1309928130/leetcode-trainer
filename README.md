@@ -19,7 +19,7 @@ LeetCode Premium is expensive, and the most useful feedback is *"what did my cod
 - **Honest error reporting**: syntax errors get a caret pointer, runtime errors include the line in *your* code.
 - **Time limits** so an accidental infinite loop can't hang the app.
 - **"My answers" version history**: every **Submit** stores a full snapshot of your code, so you can review earlier approaches later (brute force vs. hash map) and load any version back into the editor. `Run` is *not* saved — only your real answers.
-- **斩 mastery + stats**: solved counts, per-problem best time, submit success rate, and a full attempt log.
+- **Mastery + stats**: solved counts, per-problem best time, submit success rate, and a full attempt log.
 
 ## Quick start
 
@@ -117,7 +117,7 @@ Set `unordered: true` when a list answer may be returned in any order.
 
 ```jsonc
 {
-  "mastered":    { "two-sum": "2026-09-17T..." },   // 斩 marks
+  "mastered":    { "two-sum": "2026-09-17T..." },   // "Mark mastered" marks
   "code":        { "two-sum": "…latest editor text…" },
   "runs":        [ { "kind": "run" | "submit", "ok": true, "passed": 5, "total": 5, "error": null } ],
   "submissions": { "two-sum": [ { "version": 1, "code": "…full source…", "ok": true } ] },

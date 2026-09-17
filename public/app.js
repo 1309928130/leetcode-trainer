@@ -231,7 +231,7 @@ function renderProblemList() {
 
   if (filtered.length === 0) {
     el.problemList.innerHTML = `<p style="color:var(--muted);font-size:0.82rem;padding:12px;text-align:center">${
-      showMasteredOnly ? 'No mastered problems yet. Use 斩 to mark one.' : 'No problems match.'
+      showMasteredOnly ? 'No mastered problems yet. Use "Mark mastered" to mark one.' : 'No problems match.'
     }</p>`;
     return;
   }
@@ -580,7 +580,7 @@ function updateZhanButton() {
   const p = currentProblem();
   const done = p && progress.mastered[p.id];
   el.zhanBtn.classList.toggle('done', Boolean(done));
-  el.zhanBtn.textContent = done ? '✓ Mastered' : '斩';
+  el.zhanBtn.textContent = done ? '✓ Mastered' : 'Mark mastered';
   el.zhanBtn.title = done ? 'Click to un-master' : 'Mark as mastered';
 }
 
@@ -697,7 +697,7 @@ function renderStats() {
     <div class="stat-box"><div class="stat-value">${solvedIds.size}</div><div class="stat-label">Solved</div></div>
     <div class="stat-box"><div class="stat-value">${totalAttempts}</div><div class="stat-label">Total runs</div></div>
     <div class="stat-box"><div class="stat-value">${submits.length ? Math.round((accepted / submits.length) * 100) : 0}%</div><div class="stat-label">Submit success</div></div>
-    <div class="stat-box"><div class="stat-value">${Object.keys(progress.mastered).length}</div><div class="stat-label">斩 mastered</div></div>
+    <div class="stat-box"><div class="stat-value">${Object.keys(progress.mastered).length}</div><div class="stat-label">mastered</div></div>
   `;
 
   const perProblem = problems.slice().sort((a, b) => (a.number || 0) - (b.number || 0)).map((p) => {
@@ -978,7 +978,7 @@ function setSidebarFolded(folded) {
 
 function initSidebarFold() {
   let folded = localStorage.getItem('leetcodeTrainer_sidebarFolded') === '1';
-  // Never start folded after arriving from the 斩 Mastered view on a narrow screen.
+  // Never start folded after arriving from the Mastered view on a narrow screen.
   if (window.innerWidth < 720) folded = false;
   setSidebarFolded(folded);
 

@@ -233,7 +233,16 @@ body.sidebar-folded .nav-fold { display: inline-block; }
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  /* Keep the title + Solution/Mastered actions pinned while the pane scrolls.
+     Negative margins bleed the background across .problem-pane's padding so
+     content never shows through behind the pinned row. */
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin: -18px -20px 12px;
+  padding: 18px 20px 10px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
 }
 .problem-title { margin: 0; font-size: 1.2rem; display: flex; align-items: baseline; gap: 8px; }
 .problem-number { font-family: var(--mono); color: var(--muted); font-size: 0.95rem; }
@@ -689,7 +698,7 @@ body.sidebar-folded .nav-fold { display: inline-block; }
 }
 .btn-submit:hover { filter: brightness(1.08); }
 
-.btn-zhan { border-color: #b8dfc4; color: var(--ok); }
+.btn-zhan { border-color: #b8dfc4; color: var(--ok); white-space: nowrap; }
 .btn-zhan.done { background: var(--ok-bg); }
 
 .app-footer {
