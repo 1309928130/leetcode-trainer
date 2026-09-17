@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>LeetCode Trainer</title>
+  <link rel="stylesheet" href="styles.css?v=4" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">{ }</span>
+      <div>
+        <h1>LeetCode Trainer</h1>
+        <p class="sub" id="brandSub">Local practice · real Python judge</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button type="button" class="nav-btn nav-fold" id="unfoldSidebarBtn" title="Show the problem list">⟩ Problems</button>
+      <button type="button" class="nav-btn" id="navProblems">Problems</button>
+      <button type="button" class="nav-btn" id="navMastered">斩 Mastered</button>
+      <button type="button" class="nav-btn" id="navStats">Stats</button>
+      <span class="judge-status" id="judgeStatus" title="Python judge status">…</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Left: problem list -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-head">
+        <input id="searchInput" type="search" placeholder="Search problems…" autocomplete="off" />
+        <select id="difficultyFilter" title="Difficulty filter">
+          <option value="">All</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+        <button type="button" class="btn-icon btn-fold" id="foldSidebarBtn" title="Hide the problem list">
+          ⟨
+        </button>
+      </div>
+      <div id="problemList" class="problem-list"></div>
+    </aside>
+
+    <!-- Drag handle: sidebar | problem -->
+    <div class="v-resizer" id="sidebarResizer" role="separator" aria-orientation="vertical"
+      tabindex="0" title="Drag to resize · double-click to reset"
+      aria-label="Resize problem list"></div>
+
+    <!-- Center: problem + editor -->
+    <main class="main" id="problemMain">
+      <section id="problemPane" class="problem-pane">
+        <div id="problemBody" hidden>
+          <div class="problem-head">
+            <div>
+              <h2 class="problem-title">
+                <span class="problem-number" id="problemNumber"></span>
+                <span id="problemTitle"></span>
+              </h2>
+              <div class="problem-meta">
+                <span class="pill" id="problemDifficulty"></span>
+                <span class="tags" id="problemTags"></span>
+              </div>
+            </div>
+            <div class="problem-head-actions">
+              <button type="button" class="btn-icon" id="toggleSolution">Solution</button>
+              <button type="button" class="btn-icon btn-zhan" id="zhanBtn" title="Mark as mastered">斩</button>
+            </div>
+          </div>
+
+          <div class="tabs" id="tabs">
+            <button type="button" class="tab active" data-tab="description">Description</button>
+            <button type="button" class="tab" data-tab="attempt" id="tabAttempt">My original attempt</button>
+            <button type="button" class="tab" data-tab="explanation">Explanation</button>
+            <button type="button" class="tab" data-tab="hints">Hints</button>
+            <button type="button" class="tab" data-tab="history" id="tabHistory">My answers</button>
+          </div>
+
+          <div class="tab-body">
+            <div class="tab-pane active" data-pane="description" id="statementPane"></div>
+            <div class="tab-pane" data-pane="attempt" id="attemptPane"></div>
+            <div class="tab-pane" data-pane="explanation" id="explanationPane"></div>
+            <div class="tab-pane" data-pane="hints" id="hintsPane"></div>
+            <div class="tab-pane" data-pane="history" id="historyPane"></div>
+          </div>
+
+          <div class="solution-block" id="solutionBlock" hidden>
+            <div class="solution-head">
+              <strong>Reference solution</strong>
+              <span class="complexity" id="solutionComplexity"></span>
+              <button type="button" class="btn-icon" id="copySolutionBtn">Copy</button>
+            </div>
+            <pre class="code-display" id="solutionCode"></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Drag handle: problem | workbench -->
+    <div class="v-resizer" id="workbenchResizer" role="separator" aria-orientation="vertical"
+      tabindex="0" title="Drag to resize · double-click to reset"
+      aria-label="Resize code panel"></div>
+
+    <!-- Right: editor + results -->
+    <section class="workbench" id="workbench">
+      <div class="editor-head">
+        <span class="editor-lang">Python 3</span>
+        <div class="editor-actions">
+          <button type="button" class="btn-icon" id="resetCodeBtn" title="Reset to starter code">Reset</button>
+          <button type="button" class="btn-icon btn-run" id="runBtn" title="Run against the example tests">▶ Run</button>
+          <button type="button" class="btn-icon btn-submit" id="submitBtn" title="Submit against all tests">Submit</button>
+        </div>
+      </div>
+
+      <div class="editor-wrap" id="editorWrap">
+        <div class="gutter" id="gutter" aria-hidden="true"></div>
+        <textarea id="codeEditor" class="code-editor" spellcheck="false" autocomplete="off"
+          autocapitalize="off" autocorrect="off" wrap="off"></textarea>
+      </div>
+
+      <div class="h-resizer" id="resultsResizer" role="separator" aria-orientation="horizontal"
+        tabindex="0" title="Drag to resize the results panel (double-click to reset)"
+        aria-label="Resize results panel"></div>
+
+      <div class="results" id="results">
+        <div class="results-head">
+          <span class="results-title">Test results</span>
+          <span class="results-summary" id="resultsSummary"></span>
+        </div>
+        <div class="results-body" id="resultsBody">
+          <p class="results-placeholder">Run your code to see test results. <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to run.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Stats page -->
+  <div class="stats-page" id="statsPage" hidden>
+    <div class="stats-header">
+      <h2>Practice statistics</h2>
+      <div class="stats-actions">
+        <button type="button" class="btn-icon" id="exportStatsBtn">Export JSON</button>
+        <button type="button" class="btn-icon" id="clearStatsBtn">Reset progress</button>
+      </div>
+    </div>
+    <div class="stats-summary" id="statsSummary"></div>
+    <h3 class="stats-section-title">Per problem</h3>
+    <div class="table-wrap">
+      <table class="stats-table" id="problemStatsTable">
+        <thead>
+          <tr>
+            <th>#</th><th>Title</th><th>Difficulty</th><th>Runs</th>
+            <th>Submits</th><th>Solved</th><th>Best ms</th><th>Last submit</th><th>斩</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <h3 class="stats-section-title">Attempt log</h3>
+    <div class="table-wrap">
+      <table class="stats-table" id="attemptLogTable">
+        <thead>
+          <tr>
+            <th>Time</th><th>Problem</th><th>Kind</th><th>Result</th>
+            <th>Passed</th><th>Time (ms)</th><th>Error</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    Your code runs locally via CPython on your machine. <strong>Run</strong> uses the example tests; <strong>Submit</strong> checks every test case.
+  </footer>
+
+  <script type="module" src="app.js?v=4"></script>
+</body>
+</html>

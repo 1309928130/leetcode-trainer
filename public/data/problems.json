@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "updated": "2026-09-17",
+  "problems": [
+    {
+      "id": "two-sum",
+      "number": 1,
+      "title": "Two Sum",
+      "difficulty": "Easy",
+      "tags": ["array", "hash-table"],
+      "patterns": ["brute-force", "hash-map"],
+      "className": "Solution",
+      "method": "twoSum",
+      "hints": [
+        "You need to find **two** indices. What does nested looping over every pair cost you?",
+        "The outer loop picks the first index `i`. Which indices does the inner loop still need to try? (Only those *after* `i`, so you never reuse an element or repeat a pair.)",
+        "If `range(len(nums))` is unfamiliar: `range(n)` produces `0, 1, 2, …, n-1`. `range(i + 1, n)` starts at `i + 1`.",
+        "Try the walkthrough with `nums = [2, 7, 11, 15]`, `target = 9`: `i = 0` gives `nums[0] = 2`, `j = 1` gives `nums[1] = 7`; 2 + 7 = 9, so return `[0, 1]`.",
+        "Can you make this O(n) with a hash map? Store `target - nums[i]` as you go and look it up before inserting."
+      ],
+      "statement": "Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.\n\nYou may assume that each input would have **exactly one solution**, and you may not use the same element twice.\n\nYou can return the answer in any order.",
+      "examples": [
+        {
+          "input": "nums = [2,7,11,15], target = 9",
+          "output": "[0,1]",
+          "explain": "Because nums[0] + nums[1] == 9, we return [0, 1]."
+        },
+        {
+          "input": "nums = [3,2,4], target = 6",
+          "output": "[1,2]"
+        },
+        {
+          "input": "nums = [3,3], target = 6",
+          "output": [0, 1]
+        }
+      ],
+      "constraints": [
+        "2 <= nums.length <= 10^4",
+        "-10^9 <= nums[i] <= 10^9",
+        "-10^9 <= target <= 10^9",
+        "Only one valid answer exists."
+      ],
+      "starterCode": "class Solution:\n    def twoSum(self, nums: list[int], target: int) -> list[int]:\n        # your code here\n        pass\n",
+      "originalAttempt": "class Solution:\n    def twoSum(self, nums: list[int], target: int) -> list[int]:\n        for i in list[i]:\n            for j in len[list]:\n                sum = list[i]+list[i+j]\n                if sum == target:\n                    result = '[i, j]'\n                    return list[i, j]\n            ",
+      "attemptNotes": [
+        {
+          "issue": "Using the variable name `list` instead of `nums`",
+          "detail": "The parameter name passed into the function is `nums`. `list` is a reserved built-in keyword in Python."
+        },
+        {
+          "issue": "Looping over indices",
+          "detail": "`for i in list[i]:` is invalid syntax because `i` is not defined yet, and indexing requires square brackets on a variable (`nums[i]`), not the type name. To loop through indices, use `range(len(nums))`."
+        },
+        {
+          "issue": "The inner loop starting point",
+          "detail": "If the outer loop is at index `i`, the inner loop only needs to check numbers *after* `i` (from `i + 1` to `len(nums)`). Doing `nums[i + j]` can quickly lead to an `IndexError: list index out of range`."
+        },
+        {
+          "issue": "Return format",
+          "detail": "`list[i, j]` and `'[i, j]'` are invalid syntax for creating a list or returning values. In Python, a list is constructed with plain square brackets: `[i, j]`."
+        },
+        {
+          "issue": "Avoid overwriting `sum`",
+          "detail": "`sum` is a built-in Python function; using `current_sum` prevents shadowing it."
+        }
+      ],
+      "solution": "class Solution:\n    def twoSum(self, nums: list[int], target: int) -> list[int]:\n        n = len(nums)\n\n        # Outer loop picks the first element\n        for i in range(n):\n            # Inner loop picks the second element (always after i)\n            for j in range(i + 1, n):\n                if nums[i] + nums[j] == target:\n                    return [i, j]\n\n        return []\n",
+      "explanation": "### Why the nested loop works\n\nStarting `j` at `i + 1` guarantees:\n\n1. You never add a number to itself (e.g. matching the same element twice).\n2. You don't repeat pairs you've already evaluated.\n3. You never index out of bounds.\n\n### Walkthrough\n\nIf `nums = [2, 7, 11, 15]` and `target = 9`:\n\n* `i = 0` (`nums[0] = 2`)\n* `j = 1` (`nums[1] = 7`): 2 + 7 = 9. Match found!\n* Returns `[0, 1]`.\n\n### FAQs\n\n**After `return [i, j]`, why `return []`?**\n\n`return []` at the very end acts as a **fallback** (or default return).\n\n* **When a solution is found:** As soon as `nums[i] + nums[j] == target` is met, `return [i, j]` executes immediately. It exits the function on the spot, so `return []` never runs.\n* **When NO solution is found:** If both loops finish checking every possible pair and none add up to `target`, the code drops down to the end of the function.\n* **Avoiding `None`:** In Python, if a function reaches the end without hitting a `return` statement, it implicitly returns `None`. Returning `[]` ensures the function always honors its return type annotation (`-> list[int]`) by returning an empty list instead of `None`.\n\nLeetCode guarantees that every test case has exactly one valid solution, so `return []` technically won't be reached in their tests. However, writing a fallback is a standard best practice in real-world programming to handle unexpected inputs safely.",
+      "complexity": {
+        "time": "O(n²)",
+        "space": "O(1)"
+      },
+      "tests": [
+        {
+          "name": "Example 1",
+          "args": [[2, 7, 11, 15], 9],
+          "expected": [0, 1],
+          "unordered": true
+        },
+        {
+          "name": "Example 2",
+          "args": [[3, 2, 4], 6],
+          "expected": [1, 2],
+          "unordered": true
+        },
+        {
+          "name": "Example 3 (duplicates)",
+          "args": [[3, 3], 6],
+          "expected": [0, 1],
+          "unordered": true
+        },
+        {
+          "name": "Negatives",
+          "args": [[-3, 4, 3, 90], 0],
+          "expected": [0, 2],
+          "unordered": true
+        },
+        {
+          "name": "Longer array",
+          "args": [[1, 5, 8, 12, 20, 3], 23],
+          "expected": [4, 5],
+          "unordered": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "leetcode-trainer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local LeetCode practice trainer with a real Python judge.",
+  "scripts": {
+    "serve": "node server/index.js",
+    "start": "node server/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
